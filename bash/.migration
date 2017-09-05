@@ -1,0 +1,106 @@
+migfolder="migration-tool"
+version=6.0.3
+
+generate-rules(){
+  cd ~/workspace/anais/
+  cp automation/integration-tests/config/anais_hibernate_test.properties rules/target/test-classes/anais_hibernate.properties
+  sed -i '' "s/DUMMY/$1/" rules/target/test-classes/anais_hibernate.properties
+  mvn --projects rules -Dcrf.cache.thread=false  -Dcrf.cache.memory=1   -Dcrf.cache.pinned=1  -Dtest=net.unfccc.generator.AllGenerators test
+}
+
+clean-rules(){
+  cd ~/workspace/anais/generated-rules-converters/src/main/java
+  rm -rf net/unfccc/rules/crf_reporter/*
+  rm -rf net/unfccc/units/converter/crf_reporter/*
+  cd -
+}
+
+copy-rules(){
+  cd ~/workspace/anais/rules
+  cp -R generatedRules/net ../generated-rules-converters/src/main/java/
+  cp -R generatedConverters/net ../generated-rules-converters/src/main/java/
+  cp -R ../generatedRules/net ../generated-rules-converters/src/main/java/ 2> /dev/null
+  cp -R ../generatedConverters/net ../generated-rules-converters/src/main/java/ 2> /dev/null
+  cd -
+}
+
+delete-generated(){
+  cd ~/workspace/anais/
+  rm -rf rules/generatedConverters
+  rm -rf rules/generatedRules
+  rm -rf generatedConverters
+  rm -rf generatedRules
+}
+
+# combined command
+create-new-rules(){
+  if [ $# -eq 0 ]
+  then
+    echo "Please provide the database name to use!"
+  fi
+  generate-rules $1 && clean-rules && copy-rules && delete-generated
+}
+
+create-migration-tool(){
+  if [ $# -eq 0 ]
+  then
+    echo "Please provide the database name to use!"
+    return 1
+  fi
+  clear
+  cd ~/workspace/anais/$migfolder
+  mvn -q -DskipTests=true clean install assembly:assembly
+  rm -rf bin
+  mkdir bin
+  cp target/*-bin.zip bin/
+  cd bin
+  unzip -q *.zip
+  cd "$migfolder"*
+  cp ~/workspace/anais/automation/integration-tests/config/anais_hibernate_test.properties anais_hibernate.properties
+  sed -i '' "s/DUMMY/$1/" anais_hibernate.properties
+}
+
+migrate-schema(){
+  if [ $# -eq 0 ]
+  then
+    echo "Please provide the database name to use!"
+    return 1
+  fi
+  clear
+  cd ~/Downloads/Work/ANAIS-data/flyway-3.2.1
+  cp conf/flyway.conf.dummy conf/flyway.conf
+  sed -i '' "s/DUMMY/$1/" conf/flyway.conf
+  ./flyway repair
+  ./flyway migrate
+}
+
+migrate-metadata(){
+  clear
+  if [ $# -eq 0 ]
+  then
+    echo "Please provide the database name to use!"
+    return 1
+  fi
+  create-migration-tool $1
+  cd ~/workspace/anais/
+  cd "$migfolder"*
+  ./startup.sh -m -crfVersion $version
+}
+
+migrate-nvr(){
+  clear
+  cd ~/workspace/anais/$migfolder/$migfolder-$version
+  ./startup.sh -unvll 
+}
+
+migrate-rules(){
+  clear
+  cd ~/workspace/anais/$migfolder/$migfolder-$version
+  ./startup.sh -ur
+}
+
+migrate-metadata-export(){
+  clear
+  cd ~/workspace/anais/$migfolder/$migfolder-$version
+  ./startup.sh -emd
+}

@@ -1,0 +1,134 @@
+Host *
+    UseKeychain yes
+    HostkeyAlgorithms +ssh-dss
+Host mercurial
+    HostName hg.unfccc.net 
+    User repadmin
+Host tunnel-mssql
+    HostName 62.225.2.36
+    IdentityFile ~/.ssh/id_rsa
+    LocalForward 9094 78.46.101.216:3389 
+    User vartanyan
+Host crf1_home
+    HostName  78.46.101.217
+    User unfccc
+    Port 16022
+Host crf2_home
+    HostName  78.46.101.217
+    User unfccc
+    Port 18022
+Host crf3_home
+    HostName 78.46.101.217
+    User unfccc
+    Port 19022
+Host crf1
+    HostName 78.46.101.217
+    User unfccc
+    Port 16022
+    ProxyCommand ssh -l vartanyan -p 22 62.225.2.36 -W %h:%p
+Host crf2
+    HostName 78.46.101.217
+    User unfccc
+    Port 18022
+    ProxyCommand ssh -l vartanyan -p 22 62.225.2.36 -W %h:%p
+Host crf3
+    HostName 78.46.101.217
+    User unfccc
+    Port 19022
+    ProxyCommand ssh -l vartanyan -p 22 62.225.2.36 -W %h:%p
+Host hudson
+    HostName 78.46.101.217
+    User unfccc
+    Port 15022
+    ProxyCommand ssh -l vartanyan -p 22 62.225.2.36 -W %h:%p
+Host crf3-to-mssql
+    User jeremy
+    ProxyCommand ssh -q crf3 nc -q0 192.168.100.70 22 
+Host hudson-internal
+  HostName xp-1281-moc-3
+  User jeremy
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa
+Host vm
+  HostName 192.168.56.101
+  User unfccc
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa
+Host bedag-dev
+  HostName 172.31.11.25
+  User unfccclocal
+Host bedag-metatool
+  HostName 172.31.11.30
+  User unfccclocal
+Host bedag-db1
+  HostName 172.31.10.28
+  User jeremy
+Host bedag-db2
+  HostName 172.31.10.29
+  User r075
+Host bedag-default
+  HostName 172.31.11.22 
+  User unfccclocal
+Host bedag-prod-copy
+  HostName 172.31.11.21 
+  User unfccclocal
+# this servers are for Template Lines creation
+Host bedag-my
+  HostName 172.31.11.27 
+  User unfccclocal
+
+Host bedag-my-to-db1
+    HostName 172.31.11.27
+    IdentityFile ~/.ssh/id_rsa
+    LocalForward 9090 172.31.10.28:1433
+    User unfccclocal
+Host bedag-my-to-db2
+    HostName 172.31.11.27
+    IdentityFile ~/.ssh/id_rsa
+    LocalForward 9090 172.31.10.29:1433
+    User unfccclocal
+Host bedag-hotfix
+  HostName 172.31.11.24 
+  User unfccclocal
+Host bedag-uat
+  HostName 172.31.11.26
+  User unfccclocal
+Host bedag-jenkins
+  HostName 172.31.11.28
+  User unfccclocal
+Host bedag-nexus
+  HostName 172.31.11.29
+  User unfccclocal
+Host bedag-uat-jmx
+  HostName 172.31.11.23
+  User unfccclocal
+  LocalForward 9090 172.31.11.23:9999
+Host bedag-proxy
+  # HostName 172.31.11.32
+  HostName 172.31.11.31
+  User unfccclocal
+Host official-uat
+  HostName 172.17.7.58
+  User crfdevteam
+Host bedag-uat-sublime
+  HostName 172.31.11.26
+  User unfccclocal
+  RemoteForward 52698 127.0.0.1:52698 
+
+# Hetzner Servers
+Host hetzner*
+  User root
+  IdentityFile ~/.ssh/id_rsa
+Host hetzner-private*
+  HostName 88.99.15.85
+  Port 443
+Host hetzner-private-with-proxy
+  ProxyCommand=nc -X connect -x svmleuproxy.unfccc.net:3128 %h %p
+Host hetzner-64-gb*
+  HostName 138.201.250.33 
+Host hetzner-64-gb-with-proxy*
+  ProxyCommand=ssh -x -a -q hetzner-private-with-proxy nc %h 22
+Host hetzner-64-gb*-db-forward
+  LocalForward 1433 138.201.250.33:1433
+Host hetzner-64-gb*-http-forward
+  LocalForward 8080 138.201.250.33:8080

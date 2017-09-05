@@ -1,0 +1,31 @@
+[ui]
+username = Jeremy Solarz <jsolarz@unfccc.net>
+
+[merge-tools]
+idea =
+idea.gui = True
+idea.args = merge $local $other $base $output
+idea.priority = 100
+idea.executable = idea[ui]
+username = Jeremy Solarz <jsolarz@unfccc.net>
+
+[web]
+# cacerts = /etc/hg-dummy-cert.pem
+
+[extensions]
+shelve=
+graphlog=
+purge=
+mq=
+transplant=
+rebase=
+mercurial_keyring=
+histedit =
+
+[http_proxy]
+host=svmproxy.unfccc.net:3128
+
+[hostfingerprints]
+# dev.topperforming.org = 1c:ae:dd:ab:07:7e:15:1d:23:a0:c9:82:8a:b4:7d:c7:51:18:90:89
+dev.topperforming.org = 74:6d:d5:e7:4c:c1:25:83:47:6e:a4:f4:b3:6f:c9:9d:00:22:72:ac 
+hg.unfccc.net = 0a:f0:32:42:d3:77:aa:e7:93:5c:16:59:47:56:e5:f9:51:fe:7d:ba

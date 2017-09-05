@@ -1,0 +1,2 @@
+proxy = http://svmproxy.unfccc.net:3128/
+https-proxy = http://svmproxy.unfccc.net:3128
