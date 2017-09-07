@@ -1,4 +1,3 @@
-" TEST 123
 " allow vim to copy to clipboard
 set clipboard=unnamed
 " Make vim more useful
