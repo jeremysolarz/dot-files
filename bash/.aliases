@@ -179,3 +179,4 @@ alias mount_uat='echo "user: crfdevteam" && mount_smbfs //crfdevteam@172.17.1.68
 alias mount_prod='echo "user: crfdevteam" && mount_smbfs //solarz@uvacrf01/srv/upload /release/prod'
 
 alias push_all='find . -type d -maxdepth 1 | xargs -I {} sh -c "echo {} && cd {} && [ -d ".hg" ] && (hg push || true)"'
+alias gitconf='git config --global user.name "Jeremy Solarz" && git config --global user.email jeremy.solarz@gmail.com'
