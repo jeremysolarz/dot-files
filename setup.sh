@@ -26,7 +26,13 @@ ln -s ~/profile/brew/.brew ~/.brew
 # setup npm
 ln -s ~/profile/npm/.npmrc ~/.npmrc
 
+# setup proper bash completion
+ln -s ~/profile/bash/.inputrc ~/.inputrc
+
 # setup vim
 ln -s ~/profile/vim/.vim ~/.vim
 ln -s ~/profile/vim/.vimrc ~/.vimrc
 ln -s ~/profile/vim/.viminfo ~/.viminfo
+
+# create swap dir for vim
+mkdir -p ~/profile/vim/.vim/swaps
