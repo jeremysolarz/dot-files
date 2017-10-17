@@ -41,9 +41,11 @@ export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='00;38;5;226'
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/jeremysolarz/profile/bin/google-cloud-sdk/path.bash.inc' ]; then source '/Users/jeremysolarz/profile/bin/google-cloud-sdk/path.bash.inc'; fi
+if [ -f "/Users/$(whoami)/profile/bin/google-cloud-sdk/path.bash.inc" ]; then source "/Users/$(whoami)/profile/bin/google-cloud-sdk/path.bash.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/jeremysolarz/profile/bin/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/jeremysolarz/profile/bin/google-cloud-sdk/completion.bash.inc'; fi
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+if [ -f "/Users/$(whoami)/profile/bin/google-cloud-sdk/completion.bash.inc" ]; then source "/Users/$(whoami)/profile/bin/google-cloud-sdk/completion.bash.inc"; fi
+
+# export PATH="$HOME/.jenv/bin:$PATH"
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+# eval "$(jenv init -)"
